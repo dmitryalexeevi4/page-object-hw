@@ -20,8 +20,9 @@ abstract class AbstractPage {
         return webDriver.getTitle().toLowerCase();
     }
 
-    void openNavBarSection(String sectionId) {
+    AbstractPage openNavBarSection(String sectionId) {
         webDriver.findElement(By.xpath("//ul[@class = 'navigation-menu nav']//li[@id = '" + sectionId + "']")).click();
+        return this;
     }
 
     WebElement findElementByClassName(String className) {

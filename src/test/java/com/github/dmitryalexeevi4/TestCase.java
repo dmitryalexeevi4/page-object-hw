@@ -24,24 +24,29 @@ public class TestCase {
 
     @Test
     public void test() {
+        WebDriverWait wait = new WebDriverWait(webDriver, 2);
         webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         webDriver.get("https://idemo.bspb.ru");
         LoginPage loginPage = new LoginPage(webDriver);
         MainPage mainPage = new MainPage(webDriver);
         OverviewPage overviewPage = new OverviewPage(webDriver);
 
-        /*LOG.info("Переключение языка...");
-        loginPage.languageSwitcher();*/
+        LOG.info("Переключение языка...");
+        loginPage.languageSwitcher();
 
         LOG.info("Заполнение полей Username и Password...");
-        loginPage.fieldsInsert("demo", "demo");
+        loginPage
+                .fieldsInsert("demo", "demo")
+                .loginButtonClick("login-button");
 
         LOG.info("Проверка на отображение формы двухфакторной авторизации...");
         Assert.assertTrue(loginPage.findElementById("login-form").isDisplayed());
         LOG.info("Форма отображена");
 
         LOG.info("Заполнение поля для кода...");
-        loginPage.codeInsert("0000");
+        loginPage
+                .codeInsert("0000")
+                .loginButtonClick("login-otp-button");
 
         LOG.info("Проверка на осуществление входа в систему...");
         Assert.assertTrue(mainPage.findElementById("user-greeting").isDisplayed());
@@ -55,7 +60,6 @@ public class TestCase {
         LOG.info("Успешно");
 
         LOG.info("Проверка отображения блока \"Финансовая свобода\"...");
-        new WebDriverWait(webDriver, 2).until(ExpectedConditions.visibilityOf(overviewPage.financialFreedom));
         Assert.assertTrue(overviewPage.financialFreedom.isDisplayed());
         LOG.info("Блок отображен");
 
@@ -68,7 +72,7 @@ public class TestCase {
 
         LOG.info("Проверка отображения \"Моих средств\"...");
         WebElement myAssets = overviewPage.findElementByClassName("my-assets");
-        new WebDriverWait(webDriver, 2).until(ExpectedConditions.visibilityOf(myAssets));
+        wait.until(ExpectedConditions.visibilityOf(myAssets));
         Assert.assertTrue(myAssets.isDisplayed());
         LOG.info("Cтрока отображена");
 

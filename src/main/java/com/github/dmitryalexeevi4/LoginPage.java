@@ -21,21 +21,27 @@ class LoginPage extends AbstractPage {
         super(webDriver);
     }
 
-    void languageSwitcher() {
+    LoginPage languageSwitcher() {
         languageButton.click();
+        return this;
     }
 
-    void fieldsInsert(String username, String password) {
+    LoginPage fieldsInsert(String username, String password) {
         usernameField.clear();
         usernameField.sendKeys(username);
         passwordField.clear();
         passwordField.sendKeys(password);
-        findElementById("login-button").click();
+        return this;
     }
 
-    void codeInsert(String code) {
+    LoginPage codeInsert(String code) {
         otpCodeField.clear();
         otpCodeField.sendKeys(code);
-        findElementById("login-otp-button").click();
+        return this;
+    }
+
+    LoginPage loginButtonClick(String buttonId) {
+        findElementById(buttonId).click();
+        return this;
     }
 }
